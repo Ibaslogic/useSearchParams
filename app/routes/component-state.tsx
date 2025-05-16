@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react';
 import type { Route } from './+types/component-state';
+import { useNavigation } from 'react-router';
 
 // Define proper types for country data
 interface Country {
@@ -26,8 +27,8 @@ export async function clientLoader(): Promise<Country[]> {
 export default function ComponentState({
   loaderData,
 }: Route.ComponentProps) {
-  const [search, setSearch] = useState<string>('');
-  const [region, setRegion] = useState<string>('');
+  const [search, setSearch] = useState('');
+  const [region, setRegion] = useState('');
 
   // Extract unique regions from data for dynamic region options
   const regions = useMemo(() => {
@@ -68,22 +69,13 @@ export default function ComponentState({
         <div className="flex flex-col sm:flex-row gap-4 mb-8">
           <div className="relative w-full sm:w-1/2">
             <input
-              type="text"
+              type="search"
               placeholder="Search by name..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
               aria-label="Search countries"
             />
-            {search && (
-              <button
-                onClick={() => setSearch('')}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                aria-label="Clear search"
-              >
-                ×
-              </button>
-            )}
           </div>
 
           <select
